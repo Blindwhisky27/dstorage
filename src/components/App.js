@@ -169,10 +169,11 @@ class App extends Component {
               <div>
                 <ul>
                   
-               <li><button onClick={window.location = "https://ipfs.infura.io/ipfs/"+this.state.fileHash[this.state.filelen-1]}>{this.state.fileName[this.state.filelen-1]}</button></li>
-               <li><button onClick={window.location = "https://ipfs.infura.io/ipfs/"+this.state.fileHash[this.state.filelen-2]}>{this.state.fileName[this.state.filelen-2]}</button></li>
-               <li><button onClick={window.location = "https://ipfs.infura.io/ipfs/"+this.state.fileHash[this.state.filelen-3]}>{this.state.fileName[this.state.filelen-3]}</button></li>
-               <li><button onClick={window.location = "https://ipfs.infura.io/ipfs/"+this.state.fileHash[this.state.filelen-4]}>{this.state.fileName[this.state.filelen-4]}</button></li>
+               <li><button onClick = {()=>window.location = "https://ipfs.infura.io/ipfs/"+this.state.fileHash[this.state.filelen-1]}>{this.state.fileName[this.state.filelen-1]}</button></li>
+               <li><button onClick = {()=>window.location = "https://ipfs.infura.io/ipfs/"+this.state.fileHash[this.state.filelen-2]}>{this.state.fileName[this.state.filelen-2]}</button></li>
+               <li><button onClick = {()=>window.location = "https://ipfs.infura.io/ipfs/"+this.state.fileHash[this.state.filelen-3]}>{this.state.fileName[this.state.filelen-3]}</button></li>
+               
+               
                 </ul>
               </div>
             </main>
