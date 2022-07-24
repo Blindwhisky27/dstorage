@@ -34,15 +34,22 @@ class App extends Component {
       const address = networkData.address;
       const contract = web3.eth.Contract(abi, address);
       this.setState({ contract });
-      const fileHash = await contract.methods.get().call();
-      this.setState({ fileHash });
-      // .send({ from: this.state.account })
-      // .then((r) => {
-      //   this.setState({ fileHash });
-      //QmZDWbWTwpQKMpfZw31LNiCzdAPEyHfibsMrG3mth6FSXR QmaTa92kP9dPyVAE9F6RvFPUBphkoXFucjDsbrc9uPaPG5 QmZDWbWTwpQKMpfZw31LNiCzdAPEyHfibsMrG3mth6FSXR
+      const fileCountPromise = contract.methods.getCount().call();
 
-      // });
-      console.log(fileHash);
+      let count = 0;
+      fileCountPromise.then((result) => {
+        count = parseInt(result["_hex"], 16);
+        for (let i = 0; i <= count; i++) {
+          const fileHashpromise = contract.methods.getFileHash(i).call();
+          let filehash = "";
+          fileHashpromise.then((result) => {
+            // console.log(this.state.fileHash.concat([result]));
+            this.setState({
+              fileHash: this.state.fileHash.concat([result]),
+            });
+          }, null);
+        }
+      }, null);
     } else {
       window.alert("Smart contract not deployed to the network");
     }
@@ -53,7 +60,7 @@ class App extends Component {
       buffer: null,
       contract: null,
       account: "",
-      fileHash: "",
+      fileHash: [],
     };
   }
 
@@ -95,7 +102,9 @@ class App extends Component {
         .send({ from: this.state.account });
     });
   };
-  onDownload = () => {};
+  onDownload = () => {
+    console.log(this.state.fileHash);
+  };
   render() {
     return (
       <div>
