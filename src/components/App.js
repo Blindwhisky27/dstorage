@@ -103,6 +103,7 @@ class App extends Component {
    
   };
   onSubmit = (event) => {
+    this.setState({filelen: this.state.filelen+1})
     event.preventDefault();
     console.log("Submitting the form..");
     ipfs.add(this.state.buffer, (error, result) => {
@@ -117,7 +118,7 @@ class App extends Component {
         .set(fileHash, this.state.singleName)
         .send({ from: this.state.account });
         
-        this.setState({filelen: this.state.filelen+1})
+        
     });
   };
   onDownload = () => {
@@ -126,7 +127,8 @@ class App extends Component {
   };
   render() {
     return (
-      <div>
+      <body>
+      <div className="full-page">
         <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
           <a
             className="navbar-brand col-sm-3 col-md-2 mr-0"
@@ -158,30 +160,29 @@ class App extends Component {
                   />
                 </a>
 
-                <h2>Upload file to network</h2>
+                <h2 className="dj">Upload file to network</h2>
                 <form onSubmit={this.onSubmit}>
-                  <input type="file" onChange={this.captureFile} />
-                  <input type="submit"></input>
+                  <input type="file" className="btn" onChange={this.captureFile} />
+                  <input type="submit" className="btn"></input>
                 </form>
 
-                <button type="button" onClick={this.onDownload}>
-                  Download
-                </button>
+                
+              
+              <div className="downloads">
+                <ul className="nav-links">
+                  <li className="list-name">The files you have recently entered are :  </li>
+               <li><button className="btn" onClick = {()=>window.location = "https://ipfs.infura.io/ipfs/"+this.state.fileHash[this.state.filelen-1]}>{this.state.fileName[this.state.filelen-1]}</button></li>
+               <li><button className="btn" onClick = {()=>window.location = "https://ipfs.infura.io/ipfs/"+this.state.fileHash[this.state.filelen-2]}>{this.state.fileName[this.state.filelen-2]}</button></li>
+               <li><button className="btn" onClick = {()=>window.location = "https://ipfs.infura.io/ipfs/"+this.state.fileHash[this.state.filelen-3]}>{this.state.fileName[this.state.filelen-3]}</button></li>
+               
+                  </ul>
               </div>
-              <div>
-                <ul>
-                  
-               <li><button onClick = {()=>window.location = "https://ipfs.infura.io/ipfs/"+this.state.fileHash[this.state.filelen-1]}>{this.state.fileName[this.state.filelen-1]}</button></li>
-               <li><button onClick = {()=>window.location = "https://ipfs.infura.io/ipfs/"+this.state.fileHash[this.state.filelen-2]}>{this.state.fileName[this.state.filelen-2]}</button></li>
-               <li><button onClick = {()=>window.location = "https://ipfs.infura.io/ipfs/"+this.state.fileHash[this.state.filelen-3]}>{this.state.fileName[this.state.filelen-3]}</button></li>
-               
-               
-                </ul>
               </div>
             </main>
           </div>
         </div>
       </div>
+      </body>
     );
   }
 }

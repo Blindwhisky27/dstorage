@@ -1,1 +1,72 @@
 /* Styles go here */
+body{
+  background-image: url(../assests/images/blockchain.jpg);
+  background-repeat: repeat;
+  background-color: aqua;
+}
+
+.downloads{
+  position: absolute;
+  left: 200px;
+  top: 500px;
+  list-style-type: none;
+  margin: 0;
+  padding: 0.2cm;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: around;
+  align-items: center;
+  width: 75%;
+  border: 0.08cm;
+  border-color: blue;
+  border-style: dashed;
+  
+ 
+}
+
+.btn {
+  background: #1594e8;
+  background-image: -webkit-linear-gradient(top, #1594e8, #313e45);
+  background-image: -moz-linear-gradient(top, #1594e8, #313e45);
+  background-image: -ms-linear-gradient(top, #1594e8, #313e45);
+  background-image: -o-linear-gradient(top, #1594e8, #313e45);
+  background-image: linear-gradient(to bottom, #1594e8, #313e45);
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  font-family: Georgia;
+  color: #ffffff;
+  font-size: 15px;
+  padding: 18px 23px 11px 18px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #8da6b5;
+  background-image: -webkit-linear-gradient(top, #8da6b5, #3498db);
+  background-image: -moz-linear-gradient(top, #8da6b5, #3498db);
+  background-image: -ms-linear-gradient(top, #8da6b5, #3498db);
+  background-image: -o-linear-gradient(top, #8da6b5, #3498db);
+  background-image: linear-gradient(to bottom, #8da6b5, #3498db);
+  text-decoration: none;
+}
+
+.nav-links{
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  list-style: none;
+  font-size: 0.6cm;
+}
+.list-name{
+  
+  font-style: italic;
+  font-weight: bold;
+  list-style: none;
+
+}
+.dj{
+  font-size: 50px;
+}
