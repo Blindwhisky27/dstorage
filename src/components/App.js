@@ -97,7 +97,7 @@ class App extends Component {
       this.setState({ buffer: Buffer(reader.result) });
       this.setState({
         fileName: this.state.fileName.concat(file["name"]),
-        filelen: this.state.filelen+1,
+        
       });
     };
    
@@ -116,6 +116,8 @@ class App extends Component {
       this.state.contract.methods
         .set(fileHash, this.state.singleName)
         .send({ from: this.state.account });
+        
+        this.setState({filelen: this.state.filelen+1})
     });
   };
   onDownload = () => {
