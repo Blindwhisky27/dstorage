@@ -3,6 +3,7 @@ import logo from "../upload.png";
 import "./App.css";
 import Web3 from "web3";
 import Storage from "../abis/Storage.json";
+
 const ipfsClient = require("ipfs-http-client");
 
 const ipfs = ipfsClient({
@@ -65,8 +66,9 @@ class App extends Component {
       contract: null,
       account: "",
       singleName: "",
-      fileHash: [],
-      fileName: [],
+      fileHash: ['QmaukpRehRtEfYsMVWBvkmgfUCF1K66BmshBVVLBDYg7Cz', 'QmZDWbWTwpQKMpfZw31LNiCzdAPEyHfibsMrG3mth6FSXR', 'QmVfVzovDci5kTf5vUHnBPwaQUz5dAkp1iX38Tco2e3eB1', 'QmZDWbWTwpQKMpfZw31LNiCzdAPEyHfibsMrG3mth6FSXR', 'QmZDWbWTwpQKMpfZw31LNiCzdAPEyHfibsMrG3mth6FSXR'],
+      fileName: ['IOMEl Presentation (1).pdf', 'upload.png', 'MINOR_PROJECT_REPORT_TEMPLATE.pdf', 'upload.png', 'upload.png'],
+      filelen : 5,
     };
   }
 
@@ -82,6 +84,7 @@ class App extends Component {
     }
   }
   captureFile = (event) => {
+
     event.preventDefault();
     console.log("file captured..");
 
@@ -94,8 +97,10 @@ class App extends Component {
       this.setState({ buffer: Buffer(reader.result) });
       this.setState({
         fileName: this.state.fileName.concat(file["name"]),
+        filelen: this.state.filelen+1,
       });
     };
+   
   };
   onSubmit = (event) => {
     event.preventDefault();
@@ -103,7 +108,7 @@ class App extends Component {
     ipfs.add(this.state.buffer, (error, result) => {
       const fileHash = result[0].hash;
       console.log(this.state.singleName);
-      this.setState({ fileHash: this.state.fileHash.concat([fileHash]) });
+      this.setState({ fileHash: this.state.fileHash.concat([fileHash])});
       if (error) {
         console.error(error);
         return;
@@ -161,7 +166,15 @@ class App extends Component {
                   Download
                 </button>
               </div>
-              <div></div>
+              <div>
+                <ul>
+                  
+               <li><button onClick={window.location = "https://ipfs.infura.io/ipfs/"+this.state.fileHash[this.state.filelen-1]}>{this.state.fileName[this.state.filelen-1]}</button></li>
+               <li><button onClick={window.location = "https://ipfs.infura.io/ipfs/"+this.state.fileHash[this.state.filelen-2]}>{this.state.fileName[this.state.filelen-2]}</button></li>
+               <li><button onClick={window.location = "https://ipfs.infura.io/ipfs/"+this.state.fileHash[this.state.filelen-3]}>{this.state.fileName[this.state.filelen-3]}</button></li>
+               <li><button onClick={window.location = "https://ipfs.infura.io/ipfs/"+this.state.fileHash[this.state.filelen-4]}>{this.state.fileName[this.state.filelen-4]}</button></li>
+                </ul>
+              </div>
             </main>
           </div>
         </div>
