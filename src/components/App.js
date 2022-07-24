@@ -41,11 +41,15 @@ class App extends Component {
         count = parseInt(result["_hex"], 16);
         for (let i = 0; i <= count; i++) {
           const fileHashpromise = contract.methods.getFileHash(i).call();
-          let filehash = "";
+          const fileNamepromise = contract.methods.getFileName(i).call();
           fileHashpromise.then((result) => {
-            // console.log(this.state.fileHash.concat([result]));
             this.setState({
               fileHash: this.state.fileHash.concat([result]),
+            });
+          }, null);
+          fileNamepromise.then((result) => {
+            this.setState({
+              fileHash: this.state.fileName.concat([result]),
             });
           }, null);
         }
@@ -60,7 +64,9 @@ class App extends Component {
       buffer: null,
       contract: null,
       account: "",
+      singleName: "",
       fileHash: [],
+      fileName: [],
     };
   }
 
@@ -81,10 +87,14 @@ class App extends Component {
 
     const file = event.target.files[0];
     const reader = new window.FileReader();
+    this.setState({ singleName: file["name"] });
     reader.readAsArrayBuffer(file);
 
     reader.onloadend = () => {
       this.setState({ buffer: Buffer(reader.result) });
+      this.setState({
+        fileName: this.state.fileName.concat(file["name"]),
+      });
     };
   };
   onSubmit = (event) => {
@@ -92,17 +102,19 @@ class App extends Component {
     console.log("Submitting the form..");
     ipfs.add(this.state.buffer, (error, result) => {
       const fileHash = result[0].hash;
-      this.setState({ fileHash });
+      console.log(this.state.singleName);
+      this.setState({ fileHash: this.state.fileHash.concat([fileHash]) });
       if (error) {
         console.error(error);
         return;
       }
       this.state.contract.methods
-        .set(fileHash)
+        .set(fileHash, this.state.singleName)
         .send({ from: this.state.account });
     });
   };
   onDownload = () => {
+    console.log(this.state.fileName);
     console.log(this.state.fileHash);
   };
   render() {
@@ -149,6 +161,7 @@ class App extends Component {
                   Download
                 </button>
               </div>
+              <div></div>
             </main>
           </div>
         </div>
