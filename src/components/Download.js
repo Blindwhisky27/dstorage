@@ -1,13 +1,10 @@
 import React, { Component } from "react";
-import logo from "../logo.png";
+import logo from "../download.png";
+import { Link } from "react-router-dom";
 import "./App.css";
 import Web3 from "web3";
 import Storage from "../abis/Storage.json";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Upload from "./Upload";
-import Download from "./Download";
-import Home from "./Home";
-import { Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 const ipfsClient = require("ipfs-http-client");
 
 const ipfs = ipfsClient({
@@ -15,8 +12,7 @@ const ipfs = ipfsClient({
   port: 5001,
   protocol: "https",
 });
-
-class App extends Component {
+class Download extends Component {
   async componentWillMount() {
     await this.loadWeb3();
     await this.loadBlockChainData();
@@ -43,11 +39,17 @@ class App extends Component {
           const fileHashpromise = contract.methods.getFileHash(i).call();
           const fileNamepromise = contract.methods.getFileName(i).call();
           fileHashpromise.then((result) => {
+            const index = this.state.fileHash.indexOf("");
+            if (index > -1) this.state.fileHash.splice(index, 1);
+            console.log(this.state.fileHash);
             this.setState({
               fileHash: this.state.fileHash.concat([result]),
             });
           }, null);
           fileNamepromise.then((result) => {
+            const index = this.state.fileName.indexOf("");
+            if (index > -1) this.state.fileName.splice(index, 1);
+
             this.setState({
               fileName: this.state.fileName.concat([result]),
             });
@@ -121,16 +123,63 @@ class App extends Component {
   render() {
     return (
       <body>
-        <Router>
-          <Routes>
-            <Route path="/Download" element={<Download />} />
-            <Route path="/Upload" element={<Upload />} />
-            <Route path="/" element={<Home />} />
-          </Routes>
-        </Router>
+        <div className="full-page">
+          <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+            <a
+              className="navbar-brand col-sm-3 col-md-2 mr-0"
+              href="/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Dstorage
+            </a>
+            <ul className="navbar-nav px-3">
+              <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
+                <small className="text-white">
+                  Account: {this.state.account}
+                </small>
+              </li>
+            </ul>
+          </nav>
+
+          <div className="container-fluid mt-5">
+            <div className="row">
+              <main role="main" className="col-lg-12 d-flex text-center">
+                <div className="content mr-auto ml-auto">
+                  <a href="" target="_blank" rel="noopener noreferrer">
+                    <img
+                      src={logo}
+                      className="App-logo"
+                      alt="logo"
+                      width="100"
+                      height="100"
+                    />
+                  </a>
+                  <h3 className="dj">Download files from network</h3>
+                  <div>
+                    {this.state.fileName.reverse().map((name) => (
+                      <button
+                        className="button-10"
+                        onClick={() =>
+                          (window.location =
+                            "https://ipfs.infura.io/ipfs/" +
+                            this.state.fileHash.reverse()[
+                              this.state.fileName.indexOf(name  )
+                            ])
+                        }
+                      >
+                        {name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </main>
+            </div>
+          </div>
+        </div>
       </body>
     );
   }
 }
 
-export default App;
+export default Download;

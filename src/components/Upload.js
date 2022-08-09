@@ -1,13 +1,10 @@
 import React, { Component } from "react";
-import logo from "../logo.png";
+import logo from "../upload.png";
+import { Link } from "react-router-dom";
 import "./App.css";
 import Web3 from "web3";
 import Storage from "../abis/Storage.json";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Upload from "./Upload";
-import Download from "./Download";
-import Home from "./Home";
-import { Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 const ipfsClient = require("ipfs-http-client");
 
 const ipfs = ipfsClient({
@@ -15,8 +12,7 @@ const ipfs = ipfsClient({
   port: 5001,
   protocol: "https",
 });
-
-class App extends Component {
+class Upload extends Component {
   async componentWillMount() {
     await this.loadWeb3();
     await this.loadBlockChainData();
@@ -121,16 +117,55 @@ class App extends Component {
   render() {
     return (
       <body>
-        <Router>
-          <Routes>
-            <Route path="/Download" element={<Download />} />
-            <Route path="/Upload" element={<Upload />} />
-            <Route path="/" element={<Home />} />
-          </Routes>
-        </Router>
+        <div className="full-page">
+          <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+            <a
+              className="navbar-brand col-sm-3 col-md-2 mr-0"
+              href="/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Dstorage
+            </a>
+            <ul className="navbar-nav px-3">
+              <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
+                <small className="text-white">
+                  Account: {this.state.account}
+                </small>
+              </li>
+            </ul>
+          </nav>
+
+          <div className="container-fluid mt-5">
+            <div className="row">
+              <main role="main" className="col-lg-12 d-flex text-center">
+                <div className="content mr-auto ml-auto">
+                  <a href="" target="_blank" rel="noopener noreferrer">
+                    <img
+                      src={logo}
+                      className="App-logo"
+                      alt="logo"
+                      width="100"
+                      height="100"
+                    />
+                  </a>
+                  <h3 className="dj">Upload files to network</h3>
+                  <form onSubmit={this.onSubmit}>
+                    <input
+                      type="file"
+                      className="button-10"
+                      onChange={this.captureFile}
+                    />
+                    <input type="submit" className="button-10"></input>
+                  </form>
+                </div>
+              </main>
+            </div>
+          </div>
+        </div>
       </body>
     );
   }
 }
 
-export default App;
+export default Upload;
