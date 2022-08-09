@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Upload from "./Upload";
 import Download from "./Download";
 import Home from "./Home";
-import { Link } from "react-router-dom";
+
 const ipfsClient = require("ipfs-http-client");
 
 const ipfs = ipfsClient({
